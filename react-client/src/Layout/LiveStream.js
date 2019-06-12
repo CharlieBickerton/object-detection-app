@@ -1,6 +1,7 @@
 import React from 'react';
 // import * as cocoSSD from '@tensorflow-models/coco-ssd';
 import Webcam from "react-webcam";
+import { Button, Row, Col } from 'antd';
 
 
 class LiveStream extends React.Component {
@@ -13,11 +14,21 @@ class LiveStream extends React.Component {
   }
 
   render() {
+
     return (
-      <Webcam
-        width={this.props.windowWidth - 60}
-        height={this.props.windowHeight - 90}
-      />
+      <Row type="flex" justify="center">
+        <Col sm={24}>
+          <Webcam
+            audio={false}
+            height={this.props.windowHeight - 150}
+            width={this.props.windowWidth}
+          />
+        </Col>
+        <Col sm={24}>
+            <Button >Sign Up</Button>
+            <Button style={{margin: '10px'}} >Sign Up</Button>
+        </Col>
+      </Row>
     );
   }
 }

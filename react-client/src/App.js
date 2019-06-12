@@ -14,6 +14,7 @@ class App extends React.Component {
       windowHeight: window.innerHeight, // 64 = height of navBar
       windowWidth: window.innerWidth,
     };
+    this.updateLayoutDimensions = this.updateLayoutDimensions.bind(this);
   }
 
   
@@ -37,7 +38,7 @@ class App extends React.Component {
     return (
       <Layout>
         <TopNav/>
-        <Content style={{ padding: '0 50px', marginTop: 64 }}>
+        <Content style={{ marginTop: 64 }}>
           <LiveStream windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth} />
         </Content>
         <Layout className="Footer" style={{ textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
