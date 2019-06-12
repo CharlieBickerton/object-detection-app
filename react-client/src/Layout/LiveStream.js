@@ -1,5 +1,5 @@
 import React from 'react';
-// import * as cocoSSD from '@tensorflow-models/coco-ssd';
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import Webcam from "react-webcam";
 import { Button, Row, Col } from 'antd';
 
@@ -22,6 +22,7 @@ class LiveStream extends React.Component {
             audio={false}
             height={this.props.windowHeight - 150}
             width={this.props.windowWidth}
+            className="video-stream"
           />
         </Col>
         <Col sm={24}>
@@ -32,6 +33,10 @@ class LiveStream extends React.Component {
         </Col>
       </Row>
     );
+  }
+
+  prediction = async () => {
+    const model = await cocoSsd.load();
   }
 }
 
