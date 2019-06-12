@@ -1,5 +1,4 @@
 import React from 'react';
-// import * as cocoSsd from '@tensorflow-models/coco-ssd';
 // import Webcam from "react-webcam";
 import { Button, Row, Col } from 'antd';
 import Camera from '../Camera';
@@ -24,9 +23,6 @@ class LiveStream extends React.Component {
             height={this.props.windowHeight - 150}
             width={this.props.windowWidth}
             className="video-stream"
-            onUserMedia={ (stream) => {
-              console.log(stream)
-            }}
           />
         </Col>
         <Col sm={24}>

@@ -128,8 +128,9 @@ export default class Camera extends Component {
     if (!state.hasUserMedia && !Camera.userMediaRequested) {
       this.requestUserMedia();
     }
-    this.initPredictions(this.video);
-    console.log(this)
+    if (this.video) {
+      this.initPredictions();
+    }
   }
 
   componentDidUpdate(nextProps) {
@@ -161,28 +162,27 @@ export default class Camera extends Component {
     }
   }
 
-  initPredictions = async (video) => {
+  initPredictions = async () => {
     const model = await cocoSsd.load('lite_mobilenet_v2');
-    this.predictFrame(video, model);
     this.setState({ modelLoaded: true });
+    this.predictFrame(model);
   }
 
-  predictFrame = async (video, model) => {
-    model.detect(video).then(predictions => {
-      this.renderPredictedFrame(predictions);
-      requestAnimationFrame(() => {
-        this.predictFrame(video, model);
-      });
+  predictFrame = async (model) => {
+    const {frame, ctx} = await this.collectFrame();
+    const predictions = await model.detect(frame);
+    this.renderPredictedFrame(predictions, frame, ctx)
+    requestAnimationFrame(async () => {
+      const {frame, ctx} = await this.collectFrame();
+      const predictions = await model.detect(frame);
+      this.renderPredictedFrame(predictions, frame, ctx)
     })
   }
 
-  renderPredictedFrame = (predictions) => {
-    const req = this.getPredictionCanvas();
-    const canvas = req.canvas;
-    const ctx = req.ctx
-    canvas.width  = this.video.videoWidth;
-    canvas.height = this.video.videoHeight;
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  collectFrame = async () => {
+
+    const { canvas, ctx } = this.getPredictionCanvas();
+
     // Font options.
     const font = "16px sans-serif";
     ctx.font = font;
@@ -190,7 +190,16 @@ export default class Camera extends Component {
 
     ctx.drawImage(this.video, 0, 0, canvas.width, canvas.height);
 
+    const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    return {frame, ctx};
+  }
+
+  renderPredictedFrame = (predictions, frame, ctx) => {
+    const font = "16px sans-serif";
+    console.log(predictions, frame)
     predictions.forEach(prediction => {
+      ctx.putImageData(frame, 0, 0);
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
       const width = prediction.bbox[2];
@@ -204,15 +213,11 @@ export default class Camera extends Component {
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-    });
 
-    predictions.forEach(prediction => {
-      const x = prediction.bbox[0];
-      const y = prediction.bbox[1];
-      // Draw the text last to ensure it's on top.
       ctx.fillStyle = "#000000";
       ctx.fillText(prediction.class, x, y);
     });
+
   }
 
   getScreenshot() {
@@ -232,23 +237,13 @@ export default class Camera extends Component {
   }
 
   getPredictionCanvas = () => {
-    const { state, props } = this;
     const canvas = document.getElementById("canvas");
-    const aspectRatio = this.video.videoWidth / this.video.videoHeight;
 
-      let canvasWidth = props.minScreenshotWidth || this.video.clientWidth;
-      let canvasHeight = canvasWidth / aspectRatio;
+    canvas.width = this.video.videoWidth;
+    canvas.height = this.video.videoHeight;
 
-      if (props.minScreenshotHeight && (canvasHeight < props.minScreenshotHeight)) {
-        canvasHeight = props.minScreenshotHeight;
-        canvasWidth = canvasHeight * aspectRatio;
-      }
-
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-
-      const ctx = canvas.getContext('2d');
-      return { canvas, ctx }
+    const ctx = canvas.getContext('2d');
+    return { canvas, ctx }
   }
 
   getScreenShotCanvas() {
@@ -397,7 +392,7 @@ export default class Camera extends Component {
     return (
       <div>
         <video
-          // hidden
+          hidden
           autoPlay
           width={props.width}
           height={props.height}
@@ -412,7 +407,7 @@ export default class Camera extends Component {
         />
         { this.state.modelLoaded ?
         <div style={{textAlign: "center", height: this.props.height, width: this.props.width}}>
-          <canvas style={{height: this.props.height, width: this.props.width}} id="canvas"/>
+          <canvas id="canvas"/>
         </div>
         :
         <div style={{textAlign: "center", paddingTop: "10%"}}>
