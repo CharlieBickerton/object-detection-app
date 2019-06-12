@@ -1,28 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import {Button} from 'antd'
 import './App.css';
+import {Layout} from 'antd'
+import TopNav from './Layout/TopNav';
+import LiveStream from './Layout/LiveStream';
+const { Content } = Layout;
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button type="primary">Button</Button>
-      </header>
-    </div>
-  );
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Layout>
+        <TopNav/>
+        <Content style={{ padding: '0 50px', marginTop: 64 }}>
+          <LiveStream/>
+        </Content>
+        <Layout style={{ textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
+      </Layout>
+    );
+  }
 }
 
 export default App;
