@@ -1,8 +1,8 @@
 import React from 'react';
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
-import Webcam from "react-webcam";
+// import * as cocoSsd from '@tensorflow-models/coco-ssd';
+// import Webcam from "react-webcam";
 import { Button, Row, Col } from 'antd';
-
+import Camera from '../Camera';
 
 class LiveStream extends React.Component {
   constructor(props) {
@@ -10,19 +10,23 @@ class LiveStream extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
   }
+
 
   render() {
 
     return (
       <Row type="flex" justify="center">
         <Col sm={24}>
-          <Webcam
+          <Camera
             audio={false}
             height={this.props.windowHeight - 150}
             width={this.props.windowWidth}
             className="video-stream"
+            onUserMedia={ (stream) => {
+              console.log(stream)
+            }}
           />
         </Col>
         <Col sm={24}>
@@ -35,9 +39,10 @@ class LiveStream extends React.Component {
     );
   }
 
-  prediction = async () => {
-    const model = await cocoSsd.load();
-  }
+  // prediction = async () => {
+  //   const model = await cocoSsd.load();
+  // }
+
 }
 
 export default LiveStream;
