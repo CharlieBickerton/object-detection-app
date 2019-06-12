@@ -25,8 +25,10 @@ class LiveStream extends React.Component {
           />
         </Col>
         <Col sm={24}>
+          <div style={{textAlign: "center"}}>
             <Button >Sign Up</Button>
             <Button style={{margin: '10px'}} >Sign Up</Button>
+          </div>
         </Col>
       </Row>
     );
