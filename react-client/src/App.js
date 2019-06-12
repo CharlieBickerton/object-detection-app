@@ -10,6 +10,27 @@ const { Content } = Layout;
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      windowHeight: window.innerHeight, // 64 = height of navBar
+      windowWidth: window.innerWidth,
+    };
+  }
+
+  
+  componentDidMount() {
+    // set layout height, and attach a viewport size listener
+    window.addEventListener("resize", this.updateLayoutDimensions);
+    console.log(this.state)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateLayoutDimensions);
+  }
+
+  updateLayoutDimensions() {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    this.setState({ windowHeight, windowWidth });
   }
 
   render() {
@@ -17,9 +38,9 @@ class App extends React.Component {
       <Layout>
         <TopNav/>
         <Content style={{ padding: '0 50px', marginTop: 64 }}>
-          <LiveStream/>
+          <LiveStream windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth} />
         </Content>
-        <Layout style={{ textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
+        <Layout className="Footer" style={{ textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
       </Layout>
     );
   }

@@ -1,4 +1,6 @@
 import React from 'react';
+// import * as cocoSSD from '@tensorflow-models/coco-ssd';
+import Webcam from "react-webcam";
 
 
 class LiveStream extends React.Component {
@@ -6,9 +8,16 @@ class LiveStream extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    console.log(this.props)
+  }
+
   render() {
     return (
-      <div>Live</div>
+      <Webcam
+        width={this.props.windowWidth - 60}
+        height={this.props.windowHeight - 90}
+      />
     );
   }
 }

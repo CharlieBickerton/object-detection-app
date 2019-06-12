@@ -4,9 +4,9 @@ const { Item } = Menu;
 
 
 class TopNav extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render() {
     return (
@@ -20,7 +20,7 @@ class TopNav extends React.Component {
           <Item style={{ textAlign: "right", float: "right" }} key="2">
             Login
           </Item>
-          <Item style={{ textAlign: "right", float: "right" }} key="2">
+          <Item style={{ textAlign: "right", float: "right" }} key="3">
             Register
           </Item>
         </Menu>
