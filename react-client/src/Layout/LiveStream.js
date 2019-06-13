@@ -11,6 +11,7 @@ class LiveStream extends React.Component {
     this.state = {
       hasUserMedia: false,
       modelLoaded: false,
+      // facingMode: "environment",
     };
   }
 
@@ -70,6 +71,15 @@ class LiveStream extends React.Component {
     })
   }
 
+  // switchCamera = () => {
+  //   console.log('in switch cam')
+  //   if (this.state.facingMode === "user") {
+  //     this.setState({
+  //       facingMode: "environment"
+  //     })
+  //   }
+  // }
+
   render() {
     let height = "initial"
     let width = "initial"
@@ -80,6 +90,9 @@ class LiveStream extends React.Component {
       height = "100%";
       width = "auto%";
     }
+    // let videoConstraints = {
+    //   facingMode: this.state.facingMode
+    // };
 
     return (
       <Row>
@@ -89,6 +102,7 @@ class LiveStream extends React.Component {
           >
             <Webcam
               audio={false}
+              // videoConstraints={videoConstraints}
               style={{
                 height: height,
                 width: width,
@@ -119,8 +133,7 @@ class LiveStream extends React.Component {
         </Col>
         <Col sm={24}>
           <div style={{textAlign: "center"}}>
-            <Button >Sign Up</Button>
-            <Button style={{margin: '10px'}} >Sign Up</Button>
+            <Button style={{margin: '10px'}} >Sign up to save detections</Button>
           </div>
         </Col>
       </Row>
