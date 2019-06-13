@@ -16,7 +16,6 @@ class App extends React.Component {
     };
     this.updateLayoutDimensions = this.updateLayoutDimensions.bind(this);
   }
-
   
   componentDidMount() {
     // set layout height, and attach a viewport size listener
@@ -31,17 +30,20 @@ class App extends React.Component {
   updateLayoutDimensions() {
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
-    this.setState({ windowHeight, windowWidth });
+    this.setState({ 
+      windowHeight,
+      windowWidth, 
+    });
   }
 
   render() {
     return (
       <Layout>
         <TopNav/>
-        <Content style={{ marginTop: 64 }}>
+        <Content style={{ marginTop: 64, height: this.state.windowHeight - 85 }}>
           <LiveStream windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth} />
         </Content>
-        <Layout className="Footer" style={{ textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
+        <Layout className="Footer" style={{ backgroundColor: 'White', textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
       </Layout>
     );
   }

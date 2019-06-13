@@ -4,8 +4,8 @@ import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import { Button, Row, Col, Spin } from 'antd';
 // import Camera from '../Camera';
 
-class LiveStream extends React.Component {
 
+class LiveStream extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,8 @@ class LiveStream extends React.Component {
 
   componentDidMount() {
     this.initPredictions();
-  } 
+    console.log(this.state);
+  }
 
   initPredictions = async () => {
     this.model = await cocoSsd.load('lite_mobilenet_v2');
@@ -32,6 +33,7 @@ class LiveStream extends React.Component {
     const canvas = document.getElementById("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
+    console.log(canvas.width, canvas.height)
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const font = "16px sans-serif";
@@ -71,19 +73,43 @@ class LiveStream extends React.Component {
   }
 
   render() {
+    let height = "initial"
+    let width = "initial"
+    if (this.props.windowHeight > this.props.windowWidth) {
+      height = "auto";
+      width = "100%";
+    } else {
+      height = "100%";
+      width = "auto%";
+    }
 
     return (
-      <Row type="flex" justify="center">
+      <Row>
         <Col sm={24}>
-          <div hidden>
+          <div 
+            hidden
+          >
             <Webcam
               audio={false}
-              className="video-stream"
+              style={{
+                height: height,
+                width: width,
+                objectFit: "fill",
+                position: "absolute"
+              }}
             />
           </div>
           { this.state.modelLoaded ?
-            <div style={{textAlign: "center", height: this.props.height, width: this.props.width}}>
-              <canvas id="canvas"/>
+            <div 
+            style={{textAlign: "center", height: height, width: width}}
+            >
+              <canvas id="canvas"
+                style={{
+                  height: height,
+                  width: width,
+                  maxHeight: this.props.windowHeight - 150
+                }}
+              />
             </div>
           :
             <div style={{textAlign: "center", paddingTop: "10%"}}>
