@@ -16,7 +16,6 @@ class LiveStream extends React.Component {
 
   componentDidMount() {
     this.initPredictions();
-    console.log(this.state);
   }
 
   initPredictions = async () => {
@@ -33,7 +32,6 @@ class LiveStream extends React.Component {
     const canvas = document.getElementById("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    console.log(canvas.width, canvas.height)
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const font = "16px sans-serif";
