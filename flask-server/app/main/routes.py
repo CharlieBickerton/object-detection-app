@@ -1,15 +1,18 @@
 from flask import request, Blueprint
-from flask_pymongo import PyMongo
+from app import mongo
 
 
 main = Blueprint('main', __name__)
 
 
-# @main.route("/api/user/register/")
-# def register():
-#     page = request.args.get('page', 1, type=int)
-#     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-#     return render_template('home.html', posts=posts)
+@main.route("/api/user/register/")
+def register():
+    user = mongo.db.user
+    username = 'Test'
+    email = 'test@test.com'
+    user.insert({'username': username, 'email': email })
+    return 'registerd'
+
 
 @main.route("/")
 def about():

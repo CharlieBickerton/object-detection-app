@@ -25,5 +25,15 @@ yarn-error.log*
 #
 yarn.lock
 
+# Flask SERVER
 # venv
 venv-object-detection
+
+# mongo
+mongodb-data
+
+# env variables
+.env
+
+# compiled code
+__pycache__
