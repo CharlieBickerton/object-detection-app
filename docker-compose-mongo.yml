@@ -1,0 +1,14 @@
+# docker-compose-mongo.yml - Miminal Limited
+#
+# Run a mongo container in the background on port 27017:
+#   docker-compose -f docker-compose-mongo.yml up -d
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongodb-data:/data/db
+    ports:
+        - 27017:27017
