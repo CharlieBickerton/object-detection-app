@@ -14,4 +14,7 @@ def create_app():
     # else:
     #     print('db already created')
 
+    from app.main.routes import main
+    app.register_blueprint(main)
+
     return app
