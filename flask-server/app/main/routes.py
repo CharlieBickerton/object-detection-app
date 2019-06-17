@@ -8,6 +8,7 @@ main = Blueprint('main', __name__)
 
 @main.route("/api/user/register", methods=['POST'])
 def register():
+    print('register')
     if not request.json:
         abort(400)
     if current_user.is_authenticated:
@@ -24,8 +25,11 @@ def register():
 
 @main.route("/api/user", methods=['POST'])
 def user():
+    print('full request: ', request.json)
+    print(request.args)
     if request.method == 'GET':
         query = request.args
+        print(query)
         data = mongo.db.users.find_one(query)
         return jsonify(data), 200
 
