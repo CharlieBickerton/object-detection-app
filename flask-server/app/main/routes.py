@@ -1,6 +1,7 @@
 from flask import request, Blueprint, abort, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
-from app import mongo, bcrypt
+from app import mongo, bcrypt, JSONEncoder
+from bson.objectid import ObjectId
 
 
 main = Blueprint('main', __name__)
@@ -8,11 +9,10 @@ main = Blueprint('main', __name__)
 
 @main.route("/api/user/register", methods=['POST'])
 def register():
-    print('register')
     if not request.json:
         abort(400)
-    if current_user.is_authenticated:
-        return "You are already authed"
+    # if current_user.is_authenticated:
+    #     return "You are already authed"
     users = mongo.db.user
     hashed_password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
     users.insert({
@@ -23,21 +23,24 @@ def register():
     return jsonify({'registered': 'success'})
 
 
-@main.route("/api/user", methods=['POST'])
+@main.route("/api/user", methods=['GET', 'DELETE', 'PATCH'])
 def user():
-    print('full request: ', request.json)
-    print(request.args)
+    # get by anything
     if request.method == 'GET':
         query = request.args
-        print(query)
-        data = mongo.db.users.find_one(query)
+        if not query['_id']:
+            print('_id')
+            data = mongo.db.user.find_one(query)
+        else:
+            query = {"_id" : ObjectId(query['_id'])}
+            data = mongo.db.user.find_one(query)
         return jsonify(data), 200
 
-    data = request.get_json()
-
+    data = request.json
+    # Delete by _id
     if request.method == 'DELETE':
-        if data.get('email', None) is not None:
-            db_response = mongo.db.users.delete_one({'email': data['email']})
+        if data.get('_id') is not None:
+            db_response = mongo.db.user.delete_one({"_id" : ObjectId(data['_id'])})
             if db_response.deleted_count == 1:
                 response = {'ok': True, 'message': 'record deleted'}
             else:
@@ -46,13 +49,17 @@ def user():
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
 
+    # update by id
     if request.method == 'PATCH':
-        if data.get('query', {}) != {}:
-            mongo.db.users.update_one(
-                data['query'], {'$set': data.get('payload', {})})
+        print("request: ", request.json)
+        if data.get('query') is not None and data['query'].get('_id') is not None:
+            query = { "_id": ObjectId(data['query']['_id']) }
+            print('in else:', data['payload'])
+            mongo.db.user.update_one(
+                query, {'$set': data['payload']})
             return jsonify({'ok': True, 'message': 'record updated'}), 200
         else:
-            return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
+            return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400  
 
 
 @main.route("/api/user/login", methods=['POST'])
