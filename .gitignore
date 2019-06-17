@@ -39,4 +39,3 @@ mongodb-data
 *.pyo
 *.pyc
 __pycache__/
-requirements.txt
