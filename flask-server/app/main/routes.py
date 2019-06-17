@@ -21,6 +21,36 @@ def register():
     })
     return jsonify({'registered': 'success'})
 
+
+@main.route("/api/user", methods=['POST'])
+def user():
+    if request.method == 'GET':
+        query = request.args
+        data = mongo.db.users.find_one(query)
+        return jsonify(data), 200
+
+    data = request.get_json()
+
+    if request.method == 'DELETE':
+        if data.get('email', None) is not None:
+            db_response = mongo.db.users.delete_one({'email': data['email']})
+            if db_response.deleted_count == 1:
+                response = {'ok': True, 'message': 'record deleted'}
+            else:
+                response = {'ok': True, 'message': 'no record found'}
+            return jsonify(response), 200
+        else:
+            return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
+
+    if request.method == 'PATCH':
+        if data.get('query', {}) != {}:
+            mongo.db.users.update_one(
+                data['query'], {'$set': data.get('payload', {})})
+            return jsonify({'ok': True, 'message': 'record updated'}), 200
+        else:
+            return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
+
+
 @main.route("/api/user/login", methods=['POST'])
 def login():
     if current_user.is_authenticated:
@@ -32,7 +62,7 @@ def login():
         return jsonify({"login":"success"})
     else:
         return jsonify({"login":"unsuccessful"})
-  
+
 @main.route("/")
 def about():
     return 'hi'
