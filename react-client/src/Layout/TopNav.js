@@ -43,12 +43,12 @@ class TopNav extends React.Component {
             defaultSelectedKeys={['2']}
             style={{ lineHeight: '64px' }}
           >
-            <Item key="1"><NavLink to="/">Detect</NavLink></Item>
+            <Item key="1"><NavLink to="/"><Icon type="home" />Detect</NavLink></Item>
             <Item style={{ textAlign: "right", float: "right" }} key="2">
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/login"><Icon type="login" />Login</NavLink>
             </Item>
             <Item style={{ textAlign: "right", float: "right" }} key="3">
-              <NavLink to="/register">Register</NavLink>
+              <NavLink to="/register"><Icon type="user-add" />Register</NavLink>
             </Item>
           </Menu>
         }
