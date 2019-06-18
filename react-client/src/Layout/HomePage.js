@@ -4,9 +4,6 @@ import TopNav from './TopNav';
 import LiveStream from './LiveStream';
 import Login from '../Forms/Login';
 import Register from '../Forms/Register';
-
-import { Route } from 'react-router-dom'
-import auth from '../utils/auth';
 const { Content } = Layout;
 
 

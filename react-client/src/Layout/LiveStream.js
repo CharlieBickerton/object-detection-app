@@ -2,7 +2,7 @@ import React from 'react';
 import Webcam from "react-webcam";
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import { Button, Row, Col, Spin } from 'antd';
-// import Camera from '../Camera';
+import { NavLink } from 'react-router-dom';
 
 
 class LiveStream extends React.Component {
@@ -133,7 +133,11 @@ class LiveStream extends React.Component {
         </Col>
         <Col sm={24}>
           <div style={{textAlign: "center"}}>
-            <Button style={{margin: '10px'}} >Sign up to save detections</Button>
+            { !this.props.authed ?
+              <NavLink to={'/register'}><Button style={{margin: '10px'}} >Sign up to save detections</Button></NavLink>
+            :
+              <Button>Click to save prediction</Button>
+            }
           </div>
         </Col>
       </Row>
