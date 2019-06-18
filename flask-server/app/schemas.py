@@ -17,7 +17,7 @@ user_schema = {
             "minLength": 5
         }
     },
-    "required": ["email", "password"],
+    "required": ["username", "password"],
     "additionalProperties": False
 }
 
