@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { Component } from "react";
-
 import { Button, Form, Icon, Input, message, Spin } from "antd";
+import auth from "../utils/auth";
 
 
 class Register extends Component {
@@ -153,7 +152,7 @@ class Register extends Component {
 
   register = async (username, email, password) => {
     try {
-      await axios.post("/api/user/register", { username, email, password });
+      await auth.register(username, email, password)
     } catch (error) {
       message.error("Failed to register user. Username or email address is already in use");
       console.error("Register error:", error);

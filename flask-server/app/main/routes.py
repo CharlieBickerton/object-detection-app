@@ -39,7 +39,7 @@ def auth_user():
     data = validate_user(request.json)
     if data['ok']:
         data = data['data']
-        user = mongo.db.users.find_one({'username': data['username'], 'email': data['email']})
+        user = mongo.db.users.find_one({'username': data['username']})
         if user and bcrypt.check_password_hash(user['password'], data['password']):
             print('user', user)
             del user['password']
@@ -63,6 +63,16 @@ def refresh():
             'token': create_access_token(identity=current_user)
     }
     return jsonify({'ok': True, 'data': ret}), 200
+
+@main.route('/api/user/authed', methods=['GET'])
+@jwt_required
+def authed():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    if current_user:
+        return jsonify(logged_in_as=current_user), 200
+    else:
+        return jsonify('Could not authenticate'), 404
 
 
 @main.route("/api/user", methods=['GET', 'DELETE', 'PATCH'])

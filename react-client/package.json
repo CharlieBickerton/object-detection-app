@@ -2,6 +2,7 @@
   "name": "react-client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^1.0.2",
     "@tensorflow/tfjs": "^1.1.2",
