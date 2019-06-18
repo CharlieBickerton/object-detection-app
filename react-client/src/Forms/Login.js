@@ -2,8 +2,9 @@ import React, { Component } from "react";
 
 import { Button, Form, Icon, Input, message, Spin } from "antd";
 
-import axios from "axios";
 import { NavLink } from "react-router-dom";
+import auth from "../utils/auth";
+import history from "../utils/history";
 
 class LoginForm extends Component {
 
@@ -97,7 +98,8 @@ class LoginForm extends Component {
 
   login = async (username, password) => {
     try {
-      await axios.post("/api/user/login", { username, password });
+      await auth.login(username, password);
+      history.push("/");
     } catch (error) {
       message.error("Incorrect username or password. Please try again or contact hello@kadlytics.com for help");
       console.error("Error during login:", error);
