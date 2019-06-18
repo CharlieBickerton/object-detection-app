@@ -98,8 +98,9 @@ class LoginForm extends Component {
 
   login = async (username, password) => {
     try {
+      console.log('login')
       await auth.login(username, password);
-      history.push("/");
+      history.push("/app");
     } catch (error) {
       message.error("Incorrect username or password. Please try again or contact hello@kadlytics.com for help");
       console.error("Error during login:", error);

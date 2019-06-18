@@ -1,4 +1,5 @@
 import Api from "./Api";
+import history from "./history";
 
 
 class Auth {
@@ -23,7 +24,7 @@ class Auth {
   }
 
   refreshToken = async () => {
-    const currentUser = localStorage.getItem('currentUser');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const updatedUser = {...currentUser,
       token: Api.refreshToken(currentUser.refresh),
     }
@@ -31,14 +32,17 @@ class Auth {
   }
 
   logout = () => {
+    console.log('logout')
     localStorage.removeItem('currentUser');
+    history.push("/login")
   }
 
-  isAuthenticated = async () => {
-    const currentUser = localStorage.getItem('currentUser');
-    const response = Api.authed(currentUser.token);
-    console.log(response)
-    if (response.status == 200 ) {
+  isAuthenticated = () => {
+    console.log('checking auth')
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log('currentUser', currentUser)
+    if (currentUser) {
+      console.log('returning true')
       return true;
     } else {
       return false;

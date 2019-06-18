@@ -33,7 +33,7 @@ class Api {
 
   authed = async (token) => {
     try {
-      const response = await axios.post("/api/user/authed", { headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.get("/api/user/authed", { headers: { Authorization: `Bearer ${token}` } });
       return response;
     } catch (error) {
       console.error('Error:', error);
