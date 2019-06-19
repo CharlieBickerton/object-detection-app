@@ -43,9 +43,10 @@ class Register extends Component {
     } else {
       return (
         <div style={{ marginTop: "0px", textAlign: "-webkit-center" }}>
-          <Form style={{maxWidth: "250px", textAlign: "center" }} className="login-form"
+          <h1 style={{marginTop: "8%"}}>Please Register</h1>
+          <Form style={{marginTop: "2%", maxWidth: "300px", textAlign: "center" }} className="login-form"
             onSubmit={this.handleSubmit}>
-            <Form.Item style={{margin: "10px"}}
+            <Form.Item
               validateStatus={usernameError ? "error" : undefined}
               help={usernameError || ""}
             >
@@ -59,7 +60,7 @@ class Register extends Component {
                 <Input prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="Username" />,
               )}
             </Form.Item>
-            <Form.Item style={{margin: "10px"}}
+            <Form.Item
               validateStatus={emailError ? "error" : undefined}
               help={emailError || ""}
             >
@@ -73,7 +74,7 @@ class Register extends Component {
                 <Input prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="Email" />,
               )}
             </Form.Item>
-            <Form.Item style={{margin: "10px"}}
+            <Form.Item
               validateStatus={passwordError ? "error" : undefined}
               help={passwordError || ""}
             >
@@ -87,7 +88,7 @@ class Register extends Component {
                 type="password" placeholder="Password" />,
               )}
             </Form.Item>
-            <Form.Item style={{margin: "10px"}}>
+            <Form.Item>
               {getFieldDecorator("confirm", {
                 rules: [{ required: true, message: "Please confirm your Password" },
                 {

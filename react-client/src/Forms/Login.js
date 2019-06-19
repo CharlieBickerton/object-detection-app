@@ -40,9 +40,9 @@ class LoginForm extends Component {
       );
     } else {
       return (
-        <div style={{ marginTop: "30px", textAlign: "center" }}>
-          <h1>Please login to begin.</h1>
-          <Form style={{margin: "6% 40%" }} className="login-form" onSubmit={this.handleSubmit}>
+        <div style={{ marginTop: "0px", textAlign: "-webkit-center" }}>
+          <h1 style={{marginTop: "8%"}}>Please Login</h1>
+          <Form style={{marginTop: "2%", maxWidth: "300px", textAlign: "center" }} className="login-form" onSubmit={this.handleSubmit}>
             <Form.Item
               validateStatus={usernameError ? "error" : undefined}
               help={usernameError || ""}
