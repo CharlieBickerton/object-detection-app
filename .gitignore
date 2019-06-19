@@ -28,6 +28,8 @@ yarn-error.log*
 yarn.lock
 
 # Flask SERVER
+prediction_pics
+
 # venv
 venv-object-detection
 
@@ -38,6 +40,7 @@ mongodb-data
 .env
 
 # compiled code
+__pycache__
 *.pyo
 *.pyc
 __pycache__/

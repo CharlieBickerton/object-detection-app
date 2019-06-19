@@ -10,7 +10,7 @@ class Auth {
   register = async (username, email, password) => {
     try {
       await Api.register(username, email, password)
-      this.login(username, email, password)
+      this.login(username, password)
     } catch (error) {
       console.log(error)
     }
