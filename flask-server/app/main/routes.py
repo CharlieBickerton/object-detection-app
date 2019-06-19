@@ -4,6 +4,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from app import mongo, bcrypt, JSONEncoder, jwt
 from app.schemas import validate_user
 from bson.objectid import ObjectId
+from app.main.utils import save_picture
 
 
 main = Blueprint('main', __name__)
@@ -109,12 +110,13 @@ def user(_id):
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
 
-@main.route('/api/predictions', methods=['GET', 'POST'])
+@main.route('/api/user/<string:_id>/predictions', methods=['GET', 'POST'])
 @jwt_required
-def predictions():
+def predictions(_id):
     if request.method == 'POST':
         data = request.json
-        print(data)
+        picture_name = save_picture(data)
+        print(picture_name)
         return jsonify({'ok': True, 'message': 'image recieved'}), 200
     else:
         return jsonify({'ok': False, 'message': 'No image'}), 400

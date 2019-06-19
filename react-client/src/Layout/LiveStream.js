@@ -20,8 +20,9 @@ class LiveStream extends React.Component {
 
   capture = async () => {
     const canvas = document.getElementById("canvas");
-    const imageSrc = canvas.toDataURL("image/png")
-    await Api.savePrediction(imageSrc, this.state.user.token);
+    const imageSrc = canvas.toDataURL("image/jpeg", 0.5);
+    const response = await Api.savePrediction(imageSrc, this.state.user._id, this.state.user.token);
+    console.log(response)
   };
 
   componentDidMount() {
