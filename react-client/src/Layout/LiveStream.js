@@ -152,7 +152,7 @@ class LiveStream extends React.Component {
           }
         </Col>
         <Col sm={24}>
-          <div style={{textAlign: "center"}}>
+          <div style={{marginTop: "15px",textAlign: "center"}}>
             { !this.props.authed ?
               <NavLink to={'/register'}><Button style={{margin: '10px'}} >Sign up to save detections</Button></NavLink>
             :
