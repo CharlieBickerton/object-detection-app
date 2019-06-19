@@ -6,9 +6,12 @@ const { Item } = Menu;
 
 
 class TopNav extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.state ={
+      user: JSON.parse(localStorage.getItem('currentUser')),
+    }
+  }
 
   logout = () => {
     auth.logout()
@@ -30,7 +33,7 @@ class TopNav extends React.Component {
               </a>
             </Item>
             <Item key="2" style={{ textAlign: "right", float: "right" }}>
-              <NavLink to="/Account"><Icon type="user" />Account</NavLink>
+              <NavLink to="/Account"><Icon type="user" />{this.state.user.username}</NavLink>
             </Item>
           </Menu>
         :

@@ -115,12 +115,22 @@ def user(_id):
 @jwt_required
 def predictions(_id):
     if request.method == 'POST':
-        data = request.json
-        picture_name = save_picture(data)
-        result = mongo.db.users.update_one(
-            {'_id': ObjectId(_id)}, {'$push': {'images': {'file-name': picture_name}}}
-        )
-        print(result)
-        return jsonify({'ok': True, 'message': 'image recieved'}), 200
-    else:
-        return jsonify({'ok': False, 'message': 'No image'}), 400
+        if request.json:
+            data = request.json
+            picture_name = save_picture(data)
+            result = mongo.db.users.update_one(
+                {'_id': ObjectId(_id)}, {'$push': {'images': {'file-name': picture_name}}}
+            )
+            print(result)
+            return jsonify({'ok': True, 'message': 'image recieved'}), 200
+        else:
+            return jsonify({'ok': False, 'message': 'No image'}), 400
+    elif request.method == 'GET':
+        user = mongo.db.users.find_one({"_id" : ObjectId(_id)})
+        image_files = user['images']
+        img_address_list = []
+        print(image_files)
+        for img in image_files:
+            img_address_list.append({'url': '/static/prediction_pics/' + img['file-name']})
+        print(img_address_list)
+        return jsonify(img_address_list), 200

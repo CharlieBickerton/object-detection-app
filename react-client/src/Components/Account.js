@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Col, Layout, Row, Card } from 'antd';
+import Api from '../utils/Api';
 
 class Account extends React.Component {
   constructor(props) {
@@ -10,6 +11,16 @@ class Account extends React.Component {
   }
   
   componentDidMount() {
+    this.fetchPictureData();
+  }
+
+  fetchPictureData = async () => {
+    const {data} = await Api.getPredictions(this.state.user._id, this.state.user.token);
+    console.log(data)
+    this.setState({
+      pics: data
+    })
+    console.log(this.state)
   }
 
   render() {
@@ -25,7 +36,21 @@ class Account extends React.Component {
             </Col>
             <Col xs={24} md={16}>
               <Card style={{backgroundColor: "white", borderColor: "white", borderRadius: "5px"}}>
-                Pictures
+                <Row gutter={{ xs: 5, sm: 7, md: 9, lg: 11 }}>
+                { this.state.pics ?
+                  <div>
+                    {this.state.pics.map((pic) => {
+                      return (
+                        <Col xs={24} md={12} lg={8}>
+                          <img style={{width: "100%", height: "auto", padding: "10px"}} src={pic['url']}/>
+                        </Col>
+                      )
+                    })}
+                  </div>
+                :
+                  <div>You have no saved results</div>
+                }
+                </Row>
               </Card>
             </Col>
           </Row>

@@ -12,6 +12,16 @@ class Api {
     }
   }
 
+  getPredictions = async (_id, token) => {
+    try {
+      const response = await axios({method:'GET', url:`/api/user/${_id}/predictions`, headers: { Authorization: `Bearer ${token}` }});
+      return response;    
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
   register = async (username, email, password) => {
     try {
       const response = await axios.post("/api/user/register", { username, email, password });
