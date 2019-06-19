@@ -14,10 +14,6 @@ class TopNav extends React.Component {
     auth.logout()
   }
 
-  componentDidMount() {
-    console.log('topnav props',this.props)
-  }
-
   render() {
     return (
       <Layout style={{ position: 'fixed', zIndex: 1, width: '100%' }}>

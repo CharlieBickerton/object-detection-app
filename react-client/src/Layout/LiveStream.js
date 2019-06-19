@@ -4,6 +4,7 @@ import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import { Button, Row, Col, Spin } from 'antd';
 import { NavLink } from 'react-router-dom';
 
+const font = "16px sans-serif";
 
 class LiveStream extends React.Component {
   constructor(props) {
@@ -25,51 +26,68 @@ class LiveStream extends React.Component {
     this.streamPredictions()
   }
 
-  streamPredictions = async () => {
-    const video = await document.getElementsByTagName("video")[0]
-    // draw canvas and frame
-    if (video) {
-      const predictions = await this.model.detect(video);
+  collectAndDrawCanvas = (video) => {
+    try {
       const canvas = document.getElementById("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const font = "16px sans-serif";
-      ctx.font = font;
-      ctx.textBaseline = "top";
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      // const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-      // predict on frame
-
-      // const firstPrediction = predictions[0]
-
-      // render inference
-      predictions.forEach(prediction => {
-        const y = prediction.bbox[1];
-        const x = prediction.bbox[0];
-        const width = prediction.bbox[2];
-        const height = prediction.bbox[3];
-        // Draw the bounding box.
-        ctx.strokeStyle = "#00FFFF";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, width, height);
-        // Draw the label background.
-        ctx.fillStyle = "#00FFFF";
-        const textWidth = ctx.measureText(prediction.class).width;
-        const textHeight = parseInt(font, 10); // base 10
-        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-        // Draw the text last to ensure it's on top.
-        ctx.fillStyle = "#000000";
-        ctx.fillText(prediction.class, x, y);
-      });
-
-      // repeat using rAF
-      requestAnimationFrame(() => {
-        this.streamPredictions();
-      })
+      if (canvas) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = font;
+        ctx.textBaseline = "top";
+        return {canvas, ctx};
+      }
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  drawPrediction = (prediction, ctx) => {
+    const y = prediction.bbox[1];
+    const x = prediction.bbox[0];
+    const width = prediction.bbox[2];
+    const height = prediction.bbox[3];
+    // Draw the bounding box.
+    ctx.strokeStyle = "#00FFFF";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x, y, width, height);
+    // Draw the label background.
+    ctx.fillStyle = "#00FFFF";
+    const textWidth = ctx.measureText(prediction.class).width;
+    const textHeight = parseInt(font, 10); // base 10
+    ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+    // Draw the text last to ensure it's on top.
+    ctx.fillStyle = "#000000";
+    ctx.fillText(prediction.class, x, y);
+  }
+
+
+
+  streamPredictions = async () => {
+    try {
+      const video = await document.getElementsByClassName("video-live-stream")[0]
+      // const video = await document.getElementsByTagName("video")[0]
+      // draw canvas and frame
+      if (video) {
+        const predictions = await this.model.detect(video);
+        const {canvas, ctx} = await this.collectAndDrawCanvas(video)
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // render inference
+        predictions.map(prediction => {
+          this.drawPrediction(prediction, ctx);
+        });
+
+        // repeat using rAF
+        requestAnimationFrame(() => {
+          this.streamPredictions();
+        })
+      } else { console.log('no video') }
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   // switchCamera = () => {
@@ -103,6 +121,7 @@ class LiveStream extends React.Component {
           >
             <Webcam
               audio={false}
+              className={'video-live-stream'}
               // videoConstraints={videoConstraints}
               style={{
                 height: height,
