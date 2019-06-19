@@ -27,7 +27,7 @@ def register():
     if data['ok']:
         user = data['data']
         user['password'] = bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
-        user['images'] = {}
+        user['images'] = []
         print(user)
         mongo.db.users.insert_one(user)
         return jsonify({'ok': True, 'message': 'User created successfully!'}), 200
@@ -117,7 +117,10 @@ def predictions(_id):
     if request.method == 'POST':
         data = request.json
         picture_name = save_picture(data)
-        mongo.db.users.update_one({'_id': _id}, {'$push': {'images': picture_name}})
+        result = mongo.db.users.update_one(
+            {'_id': ObjectId(_id)}, {'$push': {'images': {'file-name': picture_name}}}
+        )
+        print(result)
         return jsonify({'ok': True, 'message': 'image recieved'}), 200
     else:
         return jsonify({'ok': False, 'message': 'No image'}), 400
