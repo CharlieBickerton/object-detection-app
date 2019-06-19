@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import { Button, Row, Col, Spin } from 'antd';
 import { NavLink } from 'react-router-dom';
+import Api from '../utils/Api';
 
 const font = "16px sans-serif";
 
@@ -10,11 +11,18 @@ class LiveStream extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: JSON.parse(localStorage.getItem('currentUser')),
       hasUserMedia: false,
       modelLoaded: false,
       // facingMode: "environment",
     };
   }
+
+  capture = async () => {
+    const canvas = document.getElementById("canvas");
+    const imageSrc = canvas.toDataURL("image/png")
+    await Api.savePrediction(imageSrc, this.state.user.token);
+  };
 
   componentDidMount() {
     this.initPredictions();
@@ -63,7 +71,6 @@ class LiveStream extends React.Component {
   }
 
 
-
   streamPredictions = async () => {
     try {
       const video = await document.getElementsByClassName("video-live-stream")[0]
@@ -86,8 +93,7 @@ class LiveStream extends React.Component {
       } else { console.log('no video') }
     } catch (error) {
       console.log(error)
-    }
-    
+    } 
   }
 
   // switchCamera = () => {
@@ -156,7 +162,7 @@ class LiveStream extends React.Component {
             { !this.props.authed ?
               <NavLink to={'/register'}><Button style={{margin: '10px'}} >Sign up to save detections</Button></NavLink>
             :
-              <Button>Click to save prediction</Button>
+              <Button onClick={this.capture}>Click to save prediction</Button>
             }
           </div>
         </Col>

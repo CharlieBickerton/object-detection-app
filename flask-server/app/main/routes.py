@@ -108,3 +108,13 @@ def user(_id):
             return jsonify({'ok': True, 'message': 'record updated'}), 200
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
+
+@main.route('/api/predictions', methods=['GET', 'POST'])
+@jwt_required
+def predictions():
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        return jsonify({'ok': True, 'message': 'image recieved'}), 200
+    else:
+        return jsonify({'ok': False, 'message': 'No image'}), 400

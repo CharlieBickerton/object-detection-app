@@ -1,6 +1,17 @@
 import axios from "axios";
 
 class Api {
+  savePrediction = async (picture, token) => {
+    try {
+      console.log(picture);
+      const response = await axios({method:'POST', url:"/api/predictions", data: {picture}, headers: { Authorization: `Bearer ${token}` }});
+      console.log(response);
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
   register = async (username, email, password) => {
     try {
       const response = await axios.post("/api/user/register", { username, email, password });
