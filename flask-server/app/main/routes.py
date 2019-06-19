@@ -75,28 +75,19 @@ def authed():
         return jsonify('Could not authenticate'), 404
 
 
-@main.route("/api/user", methods=['GET', 'DELETE', 'PATCH'])
+@main.route("/api/user/<string:_id>", methods=['GET', 'DELETE', 'PATCH'])
 @jwt_required
-def user():
+def user(_id):
     # get by anything
     if request.method == 'GET':
-        query = request.args
-        print(query)
-        if not query.get('_id'):
-            data = mongo.db.users.find_one(query)
-        else:
-            print('in here:', query['_id'])
-            query = {"_id" : ObjectId(query['_id'])}
-            print(query)
-            data = mongo.db.users.find_one(query)
-            print(data)
+        data = mongo.db.users.find_one({"_id" : ObjectId(_id)})
+        del data['password']
         return jsonify(data), 200
 
-    data = request.json
     # Delete by _id
     if request.method == 'DELETE':
-        if data.get('_id') is not None:
-            db_response = mongo.db.users.delete_one({"_id" : ObjectId(data['_id'])})
+        if _id is not None:
+            db_response = mongo.db.users.delete_one({"_id" : ObjectId(_id)})
             if db_response.deleted_count == 1:
                 response = {'ok': True, 'message': 'record deleted'}
             else:
@@ -105,6 +96,7 @@ def user():
         else:
             return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
 
+    data = request.json
     # update by id
     if request.method == 'PATCH':
         print("request: ", request.json)

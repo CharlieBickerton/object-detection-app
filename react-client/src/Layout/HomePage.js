@@ -4,6 +4,7 @@ import TopNav from './TopNav';
 import LiveStream from './LiveStream';
 import Login from '../Forms/Login';
 import Register from '../Forms/Register';
+import Account from '../Components/Account';
 const { Content } = Layout;
 
 
@@ -20,12 +21,18 @@ class HomePage extends React.Component {
     return (
       <div>
         <Layout>
-
           { this.props.type === 'Authed' ?
             <div>
               <TopNav userAuthBool={true}/>
               <Content style={{ marginTop: 64, height: this.props.windowHeight - 85 }}>
                 <LiveStream authed={true} windowHeight={this.props.windowHeight} windowWidth={this.props.windowWidth} />
+              </Content>
+            </div>
+            : this.props.type === 'AuthedAccount' ?
+            <div>
+              <TopNav userAuthBool={true}/>
+              <Content style={{ marginTop: 64, height: this.props.windowHeight - 85 }}>
+                <Account authed={true} />
               </Content>
             </div>
             : this.props.type === 'Login' ?

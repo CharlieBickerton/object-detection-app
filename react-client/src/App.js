@@ -4,7 +4,6 @@ import {Layout} from 'antd'
 import { Route } from 'react-router-dom'
 import HomePage from './Layout/HomePage';
 import { ProtectedRoute } from './Components/ProtectedRoute';
-const { Content } = Layout;
 
 class App extends React.Component {
   constructor(props) {
@@ -38,6 +37,14 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <ProtectedRoute path="/app" component={HomePage}
+          userAuthBool={true} type={'Authed'}
+          windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth}
+        />
+        <ProtectedRoute path="/account" component={HomePage}
+          userAuthBool={true} type={'AuthedAccount'}
+          windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth}
+        />
         <Route exact path="/" render={
           () => <HomePage userAuthBool={false} type={'notAuthed'}
           windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth}/>
@@ -50,10 +57,6 @@ class App extends React.Component {
           () => <HomePage userAuthBool={false} type={'Register'}
           windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth}/>
         }/>
-        <ProtectedRoute path="/app" component={HomePage}
-          userAuthBool={true} type={'Authed'}
-          windowHeight={this.state.windowHeight} windowWidth={this.state.windowWidth}
-        />
       </div>
 
     );
