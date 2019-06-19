@@ -1,15 +1,6 @@
 import axios from "axios";
 
 class Api {
-  user = async () => {
-    try {
-      const response = await axios.get("/api/user");
-      return response;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  }
   register = async (username, email, password) => {
     try {
       const response = await axios.post("/api/user/register", { username, email, password });
