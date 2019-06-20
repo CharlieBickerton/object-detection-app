@@ -41,6 +41,7 @@ class Account extends React.Component {
                 <Row style={{overflowY: "auto", maxHeight: this.props.windowHeight - 200}} gutter={{ xs: 5, sm: 7, md: 9, lg: 11 }}>
                 { this.state.pics ?
                   <div>
+                    <h1>Saved Predictions</h1>
                     {this.state.pics.map((pic) => {
                       return (
                         <Col xs={24} md={12} lg={8}>
