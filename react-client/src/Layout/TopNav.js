@@ -28,7 +28,7 @@ class TopNav extends React.Component {
           >
             <Item key="1"><NavLink to="/app"><Icon type="home" />Detect</NavLink></Item>
             <Item key="3" style={{ textAlign: "right", float: "right" }}>
-              <a target="_blank" rel="noopener noreferrer" onClick={this.logout}>
+              <a href="#" target="_blank" rel="noopener noreferrer" onClick={this.logout}>
                 <Icon type="logout" /> Logout
               </a>
             </Item>

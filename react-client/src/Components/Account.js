@@ -42,7 +42,7 @@ class Account extends React.Component {
                     {this.state.pics.map((pic) => {
                       return (
                         <Col xs={24} md={12} lg={8}>
-                          <img style={{width: "100%", height: "auto", padding: "10px"}} src={pic['url']}/>
+                          <img alt={pic[0]} style={{width: "100%", height: "auto", padding: "10px"}} src={pic['url']}/>
                         </Col>
                       )
                     })}

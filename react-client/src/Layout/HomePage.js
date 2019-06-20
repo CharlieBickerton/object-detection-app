@@ -8,14 +8,7 @@ import Account from '../Components/Account';
 const { Content } = Layout;
 
 
-
 class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  
-  componentDidMount() {
-  }
 
   render() {
     return (
@@ -60,7 +53,6 @@ class HomePage extends React.Component {
           <Layout className="Footer" style={{ backgroundColor: 'White', textAlign: 'center' }}>Detect ©2019 Created by Charlie Bickerton</Layout>
         </Layout>
       </div>
-
     );
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {Layout} from 'antd'
 import { Route } from 'react-router-dom'
 import HomePage from './Layout/HomePage';
 import { ProtectedRoute } from './Components/ProtectedRoute';

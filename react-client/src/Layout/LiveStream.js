@@ -69,6 +69,7 @@ class LiveStream extends React.Component {
     // Draw the text last to ensure it's on top.
     ctx.fillStyle = "#000000";
     ctx.fillText(prediction.class, x, y);
+    return ctx;
   }
 
 
@@ -84,7 +85,13 @@ class LiveStream extends React.Component {
 
         // render inference
         predictions.map(prediction => {
-          this.drawPrediction(prediction, ctx);
+          try {
+            this.drawPrediction(prediction, ctx);
+            return true
+          } catch (error) {
+            console.log('error in predictions:', error)
+            return false
+          }
         });
 
         // repeat using rAF
@@ -97,15 +104,6 @@ class LiveStream extends React.Component {
     } 
   }
 
-  // switchCamera = () => {
-  //   console.log('in switch cam')
-  //   if (this.state.facingMode === "user") {
-  //     this.setState({
-  //       facingMode: "environment"
-  //     })
-  //   }
-  // }
-
   render() {
     let height = "initial"
     let width = "initial"
@@ -116,9 +114,6 @@ class LiveStream extends React.Component {
       height = "100%";
       width = "auto%";
     }
-    // let videoConstraints = {
-    //   facingMode: this.state.facingMode
-    // };
 
     return (
       <Row>
@@ -129,7 +124,6 @@ class LiveStream extends React.Component {
             <Webcam
               audio={false}
               className={'video-live-stream'}
-              // videoConstraints={videoConstraints}
               style={{
                 height: height,
                 width: width,
