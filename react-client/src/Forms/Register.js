@@ -35,7 +35,7 @@ class Register extends Component {
 
     if (this.state.submitted) {
       return (
-        <div style={{ marginTop: "30px", textAlign: "center" }}>
+        <div style={{ marginTop: "12%",, textAlign: "center" }}>
           <Spin size="large" />
           <br/>
           <div>Authenticating</div>
