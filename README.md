@@ -2,6 +2,8 @@
 ## Functionality
 Two Features: Use a tensorflow.js mobileNet (coco-ssd) model for a live stream version when not authed. When authed - allow to predictions on livestream &amp; click to save picture + predictions by a user.
 
+## Screenshots
+
 ## Developer Requirements
 To get this app running you will need some familiarity with React, Flask & docker (for the mongo db).
 
