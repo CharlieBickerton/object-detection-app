@@ -28,7 +28,6 @@ def register():
         user = data['data']
         user['password'] = bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
         user['images'] = []
-        print(user)
         mongo.db.users.insert_one(user)
         return jsonify({'ok': True, 'message': 'User created successfully!'}), 200
     else:
@@ -43,7 +42,6 @@ def auth_user():
         data = data['data']
         user = mongo.db.users.find_one({'username': data['username']})
         if user and bcrypt.check_password_hash(user['password'], data['password']):
-            print('user', user)
             del user['password']
             access_token = create_access_token(identity=data)
             refresh_token = create_refresh_token(identity=data)
@@ -101,10 +99,8 @@ def user(_id):
     data = request.json
     # update by id
     if request.method == 'PATCH':
-        print("request: ", request.json)
         if data.get('query') is not None and data['query'].get('_id') is not None:
             query = { "_id": ObjectId(data['query']['_id']) }
-            print('in else:', data['payload'])
             mongo.db.users.update_one(
                 query, {'$set': data['payload']})
             return jsonify({'ok': True, 'message': 'record updated'}), 200
@@ -121,7 +117,6 @@ def predictions(_id):
             result = mongo.db.users.update_one(
                 {'_id': ObjectId(_id)}, {'$push': {'images': {'file-name': picture_name}}}
             )
-            print(result)
             return jsonify({'ok': True, 'message': 'image recieved'}), 200
         else:
             return jsonify({'ok': False, 'message': 'No image'}), 400
@@ -129,8 +124,6 @@ def predictions(_id):
         user = mongo.db.users.find_one({"_id" : ObjectId(_id)})
         image_files = user['images']
         img_address_list = []
-        print(image_files)
         for img in image_files:
             img_address_list.append({'url': '/static/prediction_pics/' + img['file-name']})
-        print(img_address_list)
         return jsonify(img_address_list), 200

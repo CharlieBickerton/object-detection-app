@@ -10,7 +10,6 @@ def save_picture(img_dict):
     Function to create a random file name for the image then
     save it in the apps picture dir and return the new file name
     '''
-    print('in prediction pics')
     random_hex = secrets.token_hex(8)
     picture_fn = random_hex + '.jpeg'
     picture_path = os.path.join(current_app.root_path, 'static/prediction_pics', picture_fn)
