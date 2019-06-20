@@ -17,7 +17,7 @@ class Account extends React.Component {
   fetchPictureData = async () => {
     const {data} = await Api.getPredictions(this.state.user._id, this.state.user.token);
     console.log(data)
-    if (!data === undefined || !data.length == 0) {
+    if (!data === undefined || !data.length === 0) {
       this.setState({
         pics: data
       })
