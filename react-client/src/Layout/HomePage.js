@@ -25,7 +25,7 @@ class HomePage extends React.Component {
             <div>
               <TopNav userAuthBool={true}/>
               <Content style={{ marginTop: 64, height: this.props.windowHeight - 85 }}>
-                <Account authed={true} />
+                <Account authed={true} windowHeight={this.props.windowHeight}/>
               </Content>
             </div>
             : this.props.type === 'Login' ?

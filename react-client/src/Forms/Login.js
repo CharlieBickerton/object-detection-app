@@ -102,7 +102,7 @@ class LoginForm extends Component {
       await auth.login(username, password);
       history.push("/app");
     } catch (error) {
-      message.error("Incorrect username or password. Please try again or contact hello@kadlytics.com for help");
+      message.error("Incorrect username or password. Please try again");
       console.error("Error during login:", error);
       throw error;
     }

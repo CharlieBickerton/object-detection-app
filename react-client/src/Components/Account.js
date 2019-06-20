@@ -17,9 +17,11 @@ class Account extends React.Component {
   fetchPictureData = async () => {
     const {data} = await Api.getPredictions(this.state.user._id, this.state.user.token);
     console.log(data)
-    this.setState({
-      pics: data
-    })
+    if (!data === undefined || !data.length == 0) {
+      this.setState({
+        pics: data
+      })
+    }
     console.log(this.state)
   }
 
@@ -36,7 +38,7 @@ class Account extends React.Component {
             </Col>
             <Col xs={24} md={16}>
               <Card style={{backgroundColor: "white", borderColor: "white", borderRadius: "5px"}}>
-                <Row gutter={{ xs: 5, sm: 7, md: 9, lg: 11 }}>
+                <Row style={{overflowY: "auto", maxHeight: this.props.windowHeight - 200}} gutter={{ xs: 5, sm: 7, md: 9, lg: 11 }}>
                 { this.state.pics ?
                   <div>
                     {this.state.pics.map((pic) => {
@@ -48,7 +50,9 @@ class Account extends React.Component {
                     })}
                   </div>
                 :
-                  <div>You have no saved results</div>
+                  <Col>
+                    <div>You have no saved results</div>
+                  </Col>
                 }
                 </Row>
               </Card>
