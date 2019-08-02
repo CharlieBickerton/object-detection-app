@@ -16,3 +16,5 @@ Please note that this is just a personal project and it is not meant to be a rob
 <img src="screenshots/login.png?raw=true" alt="Non Authed homepage" style="margin-right:20px;" width="50%" height="auto"/><img src="/screenshots/register.png?raw=true" alt="Non Authed homepage" width="50%" height="auto"/>
 
 <img src="screenshots/non_authed_home.png?raw=true" alt="Non Authed homepage" width="100%" height="auto"/>
+
+Thank you.
